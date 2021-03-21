@@ -1,24 +1,29 @@
-import logo from './logo.svg';
 import './App.css';
+import React, {useState, useEffect} from 'react';
+
+const API_URL = `https://random-data-api.com/api/users/random_user`;
 
 function App() {
+  const [name, setName] = useState('');
+
+  const generateName = () => {
+    fetch(API_URL)
+      .then(res => res.json())
+      .then(data => setName(data.first_name));
+  }
+
+  useEffect(() => {
+    generateName();
+  }, [])
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+
+      <div className="box">
+        <h2>Random Name</h2>
+        <p>{name}</p>
+        <button onClick={generateName}>Need another name🤔</button>
+      </div>
+
   );
 }
 
